@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- This file is part account_payment_gateway_paypal of Tryton. The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<data>
+    <xpath expr="/form/notebook/page[@id='configuration']" position="inside">
+        <label name="paypal_email"/>
+        <field name="paypal_email"/>
+    </xpath>
+</data>

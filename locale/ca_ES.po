@@ -1,0 +1,11 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "field:account.payment.gateway,paypal_email:"
+msgid "Email"
+msgstr "Correu electrònic"
+
+msgctxt "help:account.payment.gateway,paypal_email:"
+msgid "Paypal Email Account"
+msgstr "Paypal correu electrònic del compte"

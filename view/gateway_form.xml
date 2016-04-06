@@ -2,8 +2,12 @@
 <!-- This file is part account_payment_gateway_paypal of Tryton. The COPYRIGHT file at the top level of
 this repository contains the full copyright notices and license terms. -->
 <data>
-    <xpath expr="/form/notebook/page[@id='configuration']" position="inside">
+    <xpath expr="/form/notebook/page[@id='configuration']/field[@name='mode']" position="after">
         <label name="paypal_email"/>
         <field name="paypal_email"/>
+        <label name="paypal_client_id"/>
+        <field name="paypal_client_id"/>
+        <label name="paypal_client_secret"/>
+        <field name="paypal_client_secret"/>
     </xpath>
 </data>

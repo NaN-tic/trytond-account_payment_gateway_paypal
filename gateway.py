@@ -55,6 +55,7 @@ _PAYPAL_KEYS = (
     'L_NETAMT',
     )
 
+
 class AccountPaymentGateway:
     __metaclass__ = PoolMeta
     __name__ = 'account.payment.gateway'
@@ -70,37 +71,48 @@ class AccountPaymentGateway:
         }, help='Paypal Email Account')
     paypal_username = fields.Char('Username',
         states={
-            'invisible': (~(Equal(Eval('method'), 'paypal')) | ~(Equal(Eval('paypal_method'), 'soap'))),
-            'required': ((Equal(Eval('method'), 'paypal')) & (Equal(Eval('paypal_method'), 'soap'))),
+            'invisible': (~(Equal(Eval('method'), 'paypal'))
+                | ~(Equal(Eval('paypal_method'), 'soap'))),
+            'required': ((Equal(Eval('method'), 'paypal'))
+                & (Equal(Eval('paypal_method'), 'soap'))),
         }, help='Paypal Username Soap API')
     paypal_password = fields.Char('Password',
         states={
-            'invisible': (~(Equal(Eval('method'), 'paypal')) | ~(Equal(Eval('paypal_method'), 'soap'))),
-            'required': ((Equal(Eval('method'), 'paypal')) & (Equal(Eval('paypal_method'), 'soap'))),
+            'invisible': (~(Equal(Eval('method'), 'paypal'))
+                | ~(Equal(Eval('paypal_method'), 'soap'))),
+            'required': ((Equal(Eval('method'), 'paypal'))
+                & (Equal(Eval('paypal_method'), 'soap'))),
         }, help='Paypal Password Soap API')
     paypal_signature = fields.Char('Signature',
         states={
-            'invisible': (~(Equal(Eval('method'), 'paypal')) | ~(Equal(Eval('paypal_method'), 'soap'))),
-            'required': ((Equal(Eval('method'), 'paypal')) & (Equal(Eval('paypal_method'), 'soap'))),
+            'invisible': (~(Equal(Eval('method'), 'paypal'))
+                | ~(Equal(Eval('paypal_method'), 'soap'))),
+            'required': ((Equal(Eval('method'), 'paypal'))
+                & (Equal(Eval('paypal_method'), 'soap'))),
         }, help='Paypal Signature Soap API')
     paypal_client_id = fields.Char('Client ID',
         states={
-            'invisible': (~(Equal(Eval('method'), 'paypal')) | ~(Equal(Eval('paypal_method'), 'restsdk'))),
-            'required': ((Equal(Eval('method'), 'paypal')) & (Equal(Eval('paypal_method'), 'restsdk'))),
+            'invisible': (~(Equal(Eval('method'), 'paypal'))
+                | ~(Equal(Eval('paypal_method'), 'restsdk'))),
+            'required': ((Equal(Eval('method'), 'paypal'))
+                & (Equal(Eval('paypal_method'), 'restsdk'))),
         }, help='Paypal Rest APP Client ID')
     paypal_client_secret = fields.Char('Client Secret',
         states={
-            'invisible': (~(Equal(Eval('method'), 'paypal')) | ~(Equal(Eval('paypal_method'), 'restsdk'))),
-            'required': ((Equal(Eval('method'), 'paypal')) & (Equal(Eval('paypal_method'), 'restsdk'))),
+            'invisible': (~(Equal(Eval('method'), 'paypal'))
+                | ~(Equal(Eval('paypal_method'), 'restsdk'))),
+            'required': ((Equal(Eval('method'), 'paypal'))
+                & (Equal(Eval('paypal_method'), 'restsdk'))),
         }, help='Paypal Rest APP Client Secret')
 
     @classmethod
     def __setup__(cls):
         super(AccountPaymentGateway, cls).__setup__()
         cls._error_messages.update({
-            'paypal_client': 'Register for a Paypal developer account and get your '
-                'client_id and secret',
-        })
+                'paypal_client': (
+                    'Register for a Paypal developer account and get your '
+                    'client_id and secret'),
+                })
 
     @classmethod
     def get_methods(cls):
@@ -119,7 +131,10 @@ class AccountPaymentGateway:
         trans_date = datetime(ct.year, ct.month, ct.day)
         state = _PAYPAL_STATE[data['state']]
         pay_trans = data['transactions'][0]
-        description = unaccent(pay_trans['description'])
+        try:
+            description = unaccent(pay_trans['description'])
+        except KeyError:
+            description = ''
         amount = Decimal(pay_trans['amount']['total'])
         currency_code = pay_trans['amount']['currency']
         currency, = Currency.search([
@@ -129,13 +144,13 @@ class AccountPaymentGateway:
         return {
             'uuid': uuid,
             'description': description,
-            #~ 'origin': v[''],
+            #  'origin': v[''],
             'gateway': self,
             'reference_gateway': description,
-            'authorisation_code': uuid, # TODO ?
+            'authorisation_code': uuid,  # TODO ?
             'date': trans_date,
-            #~ 'company': v[''],
-            #~ 'party': v[''],
+            #  'company': v[''],
+            #  'party': v[''],
             'amount': amount,
             'currency': currency,
             'state': state,
@@ -154,7 +169,8 @@ class AccountPaymentGateway:
         ct = iso8601.parse_date(data['L_TIMESTAMP'])
         trans_date = datetime(ct.year, ct.month, ct.day)
         state = _PAYPAL_STATE[data['L_STATUS']]
-        description = '%s - %s' % (unaccent(data['L_NAME']), data['L_EMAIL']) # not available description
+        # not available description
+        description = '%s - %s' % (unaccent(data['L_NAME']), data['L_EMAIL'])
         amount = Decimal(data['L_AMT'])
         currency_code = data['L_CURRENCYCODE']
         currency, = Currency.search([
@@ -173,12 +189,12 @@ class AccountPaymentGateway:
         return {
             'uuid': uuid,
             'description': description,
-            #~ 'origin': v[''],
+            #  'origin': v[''],
             'gateway': self,
             'reference_gateway': description,
-            'authorisation_code': uuid, # TODO ?
+            'authorisation_code': uuid,  # TODO ?
             'date': trans_date,
-            #~ 'company': v[''],
+            #  'company': v[''],
             'party': party,
             'amount': amount,
             'currency': currency,
@@ -197,7 +213,7 @@ class AccountPaymentGateway:
             ofilter['end_time'] = end_time.strftime('%Y-%m-%dT%H:%M:%SZ')
 
         paypalrestsdk.configure({
-            "mode": self.mode, # sandbox or live
+            "mode": self.mode,  # sandbox or live
             "client_id": self.paypal_client_id,
             "client_secret": self.paypal_client_secret,
             })
@@ -218,7 +234,7 @@ class AccountPaymentGateway:
 
         to_create = []
         for uuid, v in payments.iteritems():
-            if k in uuids:
+            if uuid in uuids:
                 continue
             to_create.append(self._get_gateway_paypal_restsdk(v))
         return to_create
@@ -251,10 +267,10 @@ class AccountPaymentGateway:
                 for l in _PAYPAL_KEYS:
                     if k.startswith(l):
                         break
-                id_ = k.replace(l,'')
+                id_ = k.replace(l, '')
 
-                if not id_ in payments:
-                    payments[id_] =  {l: v[0]}
+                if id_ not in payments:
+                    payments[id_] = {l: v[0]}
                 else:
                     payments[id_][l] = v[0]
 

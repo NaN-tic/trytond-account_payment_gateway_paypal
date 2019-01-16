@@ -10,6 +10,8 @@ from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
 from trytond.pyson import Eval, Equal
 from trytond.modules.account_payment_gateway.tools import unaccent
+from trytond.i18n import gettext
+from trytond.exceptions import UserError
 
 PAYPAL_METHODS = []
 try:
@@ -56,10 +58,8 @@ _PAYPAL_KEYS = (
     )
 
 
-class AccountPaymentGateway:
-    __metaclass__ = PoolMeta
+class AccountPaymentGateway(metaclass=PoolMeta):
     __name__ = 'account.payment.gateway'
-    __metaclass__ = PoolMeta
 
     # Two methods: REST SDK (Paypal App) + SOAP (Classic)
     paypal_method = fields.Selection(PAYPAL_METHODS, 'Paypal Methods',
@@ -105,14 +105,6 @@ class AccountPaymentGateway:
                 & (Equal(Eval('paypal_method'), 'restsdk'))),
         }, help='Paypal Rest APP Client Secret')
 
-    @classmethod
-    def __setup__(cls):
-        super(AccountPaymentGateway, cls).__setup__()
-        cls._error_messages.update({
-                'paypal_client': (
-                    'Register for a Paypal developer account and get your '
-                    'client_id and secret'),
-                })
 
     @classmethod
     def get_methods(cls):

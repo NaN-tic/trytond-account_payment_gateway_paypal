@@ -2,11 +2,6 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
-msgctxt "error:account.payment.gateway:"
-msgid ""
-"Register for a Paypal developer account and get your client_id and secret"
-msgstr "Registre una cuenta de Paypal y obtiene el client_id y client_secret"
-
 msgctxt "field:account.payment.gateway,paypal_client_id:"
 msgid "Client ID"
 msgstr "Client ID"
@@ -19,6 +14,22 @@ msgctxt "field:account.payment.gateway,paypal_email:"
 msgid "Email"
 msgstr "Email"
 
+msgctxt "field:account.payment.gateway,paypal_method:"
+msgid "Paypal Methods"
+msgstr ""
+
+msgctxt "field:account.payment.gateway,paypal_password:"
+msgid "Password"
+msgstr "Contraseña"
+
+msgctxt "field:account.payment.gateway,paypal_signature:"
+msgid "Signature"
+msgstr "Firma"
+
+msgctxt "field:account.payment.gateway,paypal_username:"
+msgid "Username"
+msgstr ""
+
 msgctxt "help:account.payment.gateway,paypal_client_id:"
 msgid "Paypal Rest APP Client ID"
 msgstr "Paypal Rest APP Client ID"
@@ -30,3 +41,24 @@ msgstr "Paypal Rest APP Client Secret"
 msgctxt "help:account.payment.gateway,paypal_email:"
 msgid "Paypal Email Account"
 msgstr "Paypal correo electrónico cuenta"
+
+msgctxt "help:account.payment.gateway,paypal_method:"
+msgid "Select a API Paypal method to connect."
+msgstr ""
+
+msgctxt "help:account.payment.gateway,paypal_password:"
+msgid "Paypal Password Soap API"
+msgstr ""
+
+msgctxt "help:account.payment.gateway,paypal_signature:"
+msgid "Paypal Signature Soap API"
+msgstr ""
+
+msgctxt "help:account.payment.gateway,paypal_username:"
+msgid "Paypal Username Soap API"
+msgstr ""
+
+msgctxt "model:ir.message,text:paypal_client"
+msgid ""
+"Register for a Paypal developer account and get your client_id and secret"
+msgstr ""

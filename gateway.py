@@ -32,16 +32,16 @@ logger = logging.getLogger(__name__)
 _PAYPAL_STATE = {
     'created': 'draft',
     'approved': 'authorized',
-    'failed': 'cancel',
+    'failed': 'cancelled',
     'pending': 'draft',
-    'canceled': 'cancel',
-    'expired': 'cancel',
+    'canceled': 'cancelled',
+    'expired': 'cancelled',
     'in_progress': 'authorized',
     'Pending': 'draft',
     'Processing': 'authorized',
     'Success': 'authorized',
-    'Denied': 'cancel',
-    'Reversed': 'cancel',
+    'Denied': 'cancelled',
+    'Reversed': 'cancelled',
     'Completed': 'authorized',
     }
 _PAYPAL_KEYS = (

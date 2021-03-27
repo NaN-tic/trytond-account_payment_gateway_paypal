@@ -10,8 +10,6 @@ from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
 from trytond.pyson import Eval, Equal
 from trytond.modules.account_payment_gateway.tools import unaccent
-from trytond.i18n import gettext
-from trytond.exceptions import UserError
 
 PAYPAL_METHODS = []
 try:
@@ -24,8 +22,6 @@ try:
     PAYPAL_METHODS.append(('soap', 'SOAP (Classic)'))
 except ImportError:
     pass
-
-__all__ = ['AccountPaymentGateway']
 
 logger = logging.getLogger(__name__)
 

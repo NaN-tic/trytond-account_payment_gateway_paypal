@@ -1,6 +1,6 @@
-# This file is part of the account_payment_gateway_paypal module for Tryton.
-# The COPYRIGHT file at the top level of this repository contains the full
-# copyright notices and license terms.
+
+# This file is part of Tryton.  The COPYRIGHT file at the top level of
+# this repository contains the full copyright notices and license terms.
 import unittest
 
 try:
@@ -13,15 +13,15 @@ try:
 except ImportError:
     paypal = None
 
-import trytond.tests.test_tryton
 from trytond.tests.test_tryton import ModuleTestCase, with_transaction
 from trytond.pool import Pool
 from trytond.modules.currency.tests import create_currency
 from datetime import datetime, timedelta
+from trytond.modules.company.tests import CompanyTestMixin
 
 
-class AccountPaymentGatewayPaypalTestCase(ModuleTestCase):
-    'Test Account Payment Gateway Paypal module'
+class AccountPaymentGatewayPaypalTestCase(CompanyTestMixin, ModuleTestCase):
+    'Test AccountPaymentGatewayPaypal module'
     module = 'account_payment_gateway_paypal'
 
     @unittest.skipIf(not paypal, "missing paypal module")
@@ -74,8 +74,4 @@ class AccountPaymentGatewayPaypalTestCase(ModuleTestCase):
         gateway.import_transactions_paypal_restsdk(start_time, end_time)
 
 
-def suite():
-    suite = trytond.tests.test_tryton.suite()
-    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(
-        AccountPaymentGatewayPaypalTestCase))
-    return suite
+del ModuleTestCase

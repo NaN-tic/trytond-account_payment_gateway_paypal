@@ -72,7 +72,7 @@ class AccountPaymentGateway(metaclass=PoolMeta):
             'required': ((Equal(Eval('method'), 'paypal'))
                 & (Equal(Eval('paypal_method'), 'soap'))),
         }, help='Paypal Username Soap API')
-    paypal_password = fields.Char('Password',
+    paypal_password = fields.Char('Password', strip=False,
         states={
             'invisible': (~(Equal(Eval('method'), 'paypal'))
                 | ~(Equal(Eval('paypal_method'), 'soap'))),

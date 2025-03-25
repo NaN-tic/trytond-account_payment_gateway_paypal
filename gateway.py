@@ -288,7 +288,6 @@ class AccountPaymentGateway(metaclass=PoolMeta):
         start_time = self.from_transactions
         end_time = self.to_transactions
         self.write([self], {'from_transactions': now, 'to_transactions': None})
-        Transaction().cursor.commit()
 
         import_paypal = getattr(self, 'import_transactions_paypal_%s' %
             self.paypal_method)

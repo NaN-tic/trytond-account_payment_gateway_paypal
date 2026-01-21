@@ -7,7 +7,6 @@ from datetime import datetime
 from decimal import Decimal
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
-from trytond.transaction import Transaction
 from trytond.pyson import Eval, Equal
 from trytond.modules.account_payment_gateway.tools import unaccent
 
@@ -288,6 +287,10 @@ class AccountPaymentGateway(metaclass=PoolMeta):
         start_time = self.from_transactions
         end_time = self.to_transactions
         self.write([self], {'from_transactions': now, 'to_transactions': None})
+
+        if not self.paypal_method:
+            logger.warning('Missing paypal method configuration ID %s.' % (self.id))
+            return
 
         import_paypal = getattr(self, 'import_transactions_paypal_%s' %
             self.paypal_method)
